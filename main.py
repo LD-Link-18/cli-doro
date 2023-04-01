@@ -1,18 +1,62 @@
 #Imports
 import time
 
+#Classes
+class inputs_class():
+    def __init__(self):
+        # Get the necessaryinputs
+        self.work_time = int(float(input("How long would you like a session to be? (in munites)\n"))*60)
+        self.break_time = int(float(input("\nHow long would you like a break to be? (in munites)\n"))*60)
+        self.reps = input("\nHow much repetitions do you want?\n")
+        self.start_input = input("Type 'start' to start.\n")
 
 #Funnctions
 def progress_bar(progress,total):
     #Create percentage based on the values given
     percent = 100 * (progress / float(total))
     #Create the bar according to the percentage
-    bar = "█" * int(percent) + "-" * (100-int(percent))
+    bar = "█" * int(percent) + "-" * (99-int(percent))
     #Print the progress bar itself
-    print(f"\r|{bar}| {percent:.2f}", end="\r")
+    print(f"\r|{bar}| %{percent:.2f}", end="\r")
+
+def timer(wt,bt,rps,rp,timer_type):
+
+    if timer_type == "work":
+        starting_time = time.time()
+        print(f"Starting a session for {float(wt/60)} munites.")
+        while True:
+            time_now = time.time()
+            time_diff = time_now - starting_time
+            if time_diff < wt:
+                progress_bar(time_diff,wt)
+            else:
+                print(f"\nFinished session {rp}/{rps}.")
+                print(f"Taking a break for {float(bt/60)} munites.")
+                break
+            
+    elif timer_type == "break":
+        starting_time = time.time()
+        while True:
+            time_now = time.time()
+            time_diff = time_now - starting_time
+            if time_diff < bt:
+                progress_bar(time_diff,bt)
+            else:
+                print(f"\nFinished break.")
+                break 
+
 
 def main_loop():
-    print("Welcome to Cli-doro.") #Greet the user.
+    print("Welcome to cli-doro.")
 
-    study_time = input("How long would you like a session to be? (in munites)\n")
-    break_time = input("\nHow long would you like a break to be? (in munites)\n")
+    #Get inputs
+    inputs = inputs_class()
+
+    if inputs.start_input == "start":
+        for i in inputs.reps:
+            timer(inputs.work_time,inputs.break_time,inputs.reps,i,"work")
+            timer(inputs.work_time,inputs.break_time,inputs.reps,i,"break")
+        print("Congratulations you have finished your goal.")
+
+if __name__ == "__main__":
+    main_loop()
