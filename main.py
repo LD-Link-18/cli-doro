@@ -1,5 +1,6 @@
 #Imports
 import time
+import tqdm
 
 #Classes
 class inputs_class():
@@ -11,13 +12,10 @@ class inputs_class():
         self.start_input = input("Type 'start' to start.\n")
 
 #Funnctions
-def progress_bar(progress,total):
-    #Create percentage based on the values given
-    percent = 100 * (progress / float(total))
-    #Create the bar according to the percentage
-    bar = "█" * int(percent) + "-" * (99-int(percent))
-    #Print the progress bar itself
-    print(f"\r|{bar}| %{percent:.2f}", end="\r")
+def progress_bar(t):
+    #Run tqdm with some bar formating
+    for i in tqdm.tqdm(range(t),bar_format='{l_bar}{bar}| {remaining}'):
+        time.sleep(1)
 
 def timer(wt,bt,rps,rp,timer_type):
     if timer_type == "work":
@@ -31,7 +29,7 @@ def timer(wt,bt,rps,rp,timer_type):
             #Compare the difference between time_now and starting_time
             #As long as the difference is less than the number user selected update the progress bar
             if time_diff < wt:
-                progress_bar(time_diff,wt)
+                progress_bar(wt)
             else:
                 print(f"\nFinished session {rp}/{rps}.")
                 print(f"Taking a break for {float(bt/60)} munites.")
@@ -43,7 +41,7 @@ def timer(wt,bt,rps,rp,timer_type):
             time_now = time.time()
             time_diff = time_now - starting_time
             if time_diff < bt:
-                progress_bar(time_diff,bt)
+                progress_bar(bt)
             else:
                 print(f"\nFinished break.")
                 break 
