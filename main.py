@@ -8,7 +8,7 @@ class inputs_class():
         # Get the necessary inputs
         self.work_time = int(float(input("How long would you like a session to be? (in munites)\n"))*60)
         self.break_time = int(float(input("\nHow long would you like a break to be? (in munites)\n"))*60)
-        self.reps = input("\nHow much repetitions do you want?\n")
+        self.reps = int(input("\nHow much repetitions do you want?\n"))
         self.start_input = input("Type 'start' to start.\n")
 
 #Funnctions
@@ -31,7 +31,7 @@ def timer(wt,bt,rps,rp,timer_type):
             if time_diff < wt:
                 progress_bar(wt)
             else:
-                print(f"\nFinished session {rp}/{rps}.")
+                print(f"\nFinished session {rp+1}/{rps}.")
                 print(f"Taking a break for {float(bt/60)} munites.")
                 break       
     elif timer_type == "break":
@@ -53,7 +53,7 @@ def main_loop():
     inputs = inputs_class()
 
     if inputs.start_input == "start":
-        for i in inputs.reps:
+        for i in range(int(inputs.reps)):
             timer(inputs.work_time,inputs.break_time,inputs.reps,i,"work")
             timer(inputs.work_time,inputs.break_time,inputs.reps,i,"break")
         print("Congratulations you have finished your goal.")
