@@ -31,10 +31,10 @@ def main_loop():
         #Return the user to main menu or exit the app
         return_to_menu = input()
 
-        if return_to_menu == ("m") or ("M"):
+        if return_to_menu.lower() == "m":
             cls()
             main_menu()
-        elif return_to_menu == ("q") or ("Q"):
+        elif return_to_menu.lower() == "q":
             cls()
             os.system("exit")
 
